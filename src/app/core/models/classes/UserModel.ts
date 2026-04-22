@@ -1,12 +1,35 @@
 export class UserLogin {
-    username: string;
+    email: string;
     password: string;
-    role: number;
 
     constructor()
     {
-        this.password = '',
-        this.username = '',
-        this.role = 0;
+        this.email = '';
+        this.password = '';
     }
+}
+
+export class UserModel {
+    userId: number
+    name: string
+    email: string
+    password: string
+    confirmPassword: string
+    roleId: number
+    phone: string
+    address: string
+    createdAt: Date
+
+    constructor() {
+        this.userId = 0;
+        this.address = '';
+        this.createdAt = new Date()
+        this.email = '';
+        this.name = '';
+        this.password = '';
+        this.confirmPassword= '';
+        this.roleId = 0;
+        this.phone = ''
+    }
+
 }

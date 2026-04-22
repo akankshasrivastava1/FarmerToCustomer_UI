@@ -1,1 +1,221 @@
-{{loginObj.username}}
+
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="home.html">
+        <span class="brand-logo">🌿</span> FarmDirect
+      </a>
+      <a href="home.html" class="btn btn-sm btn-outline-light ms-auto">Back to Home</a>
+    </div>
+  </nav>
+
+  <!-- Auth Section -->
+  <div class="auth-page" style="padding-top:70px;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+          <!-- Brand Hero Text -->
+          <div class="text-center mb-4">
+            <div style="font-size:3rem;">🌱</div>
+            <h2 style="color:#fff;font-weight:800;font-size:1.8rem;">FarmDirect</h2>
+            <p style="color:rgba(255,255,255,0.8);font-size:0.95rem;">Fresh from farm to your table</p>
+          </div>
+
+          <div class="auth-card">
+            <!-- Tabs Header -->
+            <ul class="nav nav-tabs auth-tabs border-0 px-4 pt-4" id="authTabs" role="tablist">
+              <li class="nav-item flex-fill text-center" role="presentation">
+                <button class="nav-link w-100 active" id="login-tab" [ngClass]="isLoginFormVisiable() ? 'active': ''" (click)="onToggleForm(true)" data-bs-toggle="tab" data-bs-target="#loginPane" type="button" role="tab">
+                  <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                </button>
+              </li>
+              <li class="nav-item flex-fill text-center" role="presentation">
+                <button class="nav-link w-100" id="register-tab" [ngClass]="isLoginFormVisiable() ? '': 'active'"  data-bs-toggle="tab" (click)="onToggleForm(false)" data-bs-target="#registerPane" type="button" role="tab">
+                  <i class="bi bi-person-plus me-1"></i> Register
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content auth-body" id="authTabsContent">
+
+              <!-- ── Login Pane ── -->
+               @if (isLoginFormVisiable()){
+                <div class="tab-pane fade show active" id="loginPane" role="tabpanel">
+                <h5 class="fw-bold mb-1" style="color:var(--dark)">Welcome back!</h5>
+                <p class="text-muted mb-4" style="font-size:0.85rem;">Sign in to continue to FarmDirect</p>
+
+                <form id="loginForm" novalidate>
+                  <div class="mb-3">
+                    <label class="form-label" for="loginEmail">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-envelope" style="color:var(--primary)"></i>
+                      </span>
+                      <input type="email" class="form-control border-start-0 ps-0" id="loginEmail" name="email" [(ngModel)]="loginObj.email"
+                        placeholder="you@gmail.com"  required />
+                      <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-lock" style="color:var(--primary)"></i>
+                      </span>
+                      <input type="password" class="form-control border-start-0 ps-0" id="loginPassword" name="password" [(ngModel)]="loginObj.password"
+                        placeholder="Enter your password" required minlength="6" />
+                      <button class="btn btn-outline-secondary border-start-0" type="button" id="toggleLoginPwd">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <div class="invalid-feedback">Password must be at least 6 characters.</div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="rememberMe" />
+                      <label class="form-check-label" for="rememberMe" style="font-size:0.85rem;">Remember me</label>
+                    </div>
+                    <a href="#" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:500;">Forgot password?</a>
+                  </div>
+
+                  <button type="button" (click)="onLogin()" class="btn w-100 fw-bold py-2" style="background:var(--primary);color:#fff;border-radius:var(--radius-sm);">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                  </button>
+                </form>
+
+                <div class="auth-divider mt-4">or</div>
+
+                <p class="text-center mt-3 mb-0" style="font-size:0.875rem;color:var(--text-muted);">
+                  Don't have an account?
+                  <a href="#" style="color:var(--primary);font-weight:600;text-decoration:none;" onclick="document.getElementById('register-tab').click();return false;">Register here</a>
+                </p>
+              </div>
+               }
+               @else {
+                <!-- ── Register Pane ── -->
+              <div class="" id="registerPane" role="tabpanel">
+                <h5 class="fw-bold mb-1" style="color:var(--dark)">Create account</h5>
+                <p class="text-muted mb-4" style="font-size:0.85rem;">Join FarmDirect as a farmer or customer</p>
+
+                <form id="registerForm" [formGroup]="registerForm" novalidate>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="regName">Full Name</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-person" style="color:var(--primary)"></i>
+                      </span>
+                      <input type="text" class="form-control border-start-0 ps-0" id="regName"
+                        formControlName="name" placeholder="Your full name" required />
+                      <div class="invalid-feedback">Name is required.</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="regEmail">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-envelope" style="color:var(--primary)"></i>
+                      </span>
+                      <input type="email" class="form-control border-start-0 ps-0" id="regEmail"
+                        formControlName="email" placeholder="akanksha@gmail.com" required />
+                      <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="regPassword">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-lock" style="color:var(--primary)"></i>
+                      </span>
+                      <input type="password" class="form-control border-start-0 ps-0" id="regPassword"
+                        formControlName="password" placeholder="Min. 6 characters" required minlength="6" />
+                      <button class="btn btn-outline-secondary border-start-0" type="button" id="toggleRegPwd">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <div class="invalid-feedback">Password must be at least 6 characters.</div>
+                    </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="form-label" for="regConfirmPassword">Confirm Password</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                          <i class="bi bi-lock" style="color:var(--primary)"></i>
+                        </span>
+                        <input type="password" class="form-control border-start-0 ps-0" id="regConfirmPassword"
+                          formControlName="confirmPassword" placeholder="Re-enter password" required />
+                        <button class="btn btn-outline-secondary border-start-0" type="button" id="toggleRegConfirmPwd">
+                          <i class="bi bi-eye"></i>
+                        </button>
+                        <div class="invalid-feedback">
+                          Passwords do not match.
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                      <label class="form-label" for="regRoleId">Register As</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-shield-check" style="color:var(--primary)"></i>
+                      </span>
+                      <select class="form-select border-start-0" id="regRoleId" formControlName="roleId" required>
+                        <option value="" disabled selected>-- Select Role --</option>
+                        @for (item of roleList(); track $index) {
+                          <option [value]="item.roleId">{{item.roleName}}</option>
+              
+                        }
+                        
+                      </select>
+                      <div class="invalid-feedback">Please select a role.</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="regPhone">Phone Number</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-telephone" style="color:var(--primary)"></i>
+                      </span>
+                      <input type="tel" class="form-control border-start-0 ps-0" id="regPhone"
+                        formControlName="phone" placeholder="+91 9876543210" required />
+                      <div class="invalid-feedback">Phone number is required.</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="form-label" for="regAddress">Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0 align-items-start pt-2">
+                        <i class="bi bi-geo-alt" style="color:var(--primary)"></i>
+                      </span>
+                      <textarea class="form-control border-start-0 ps-0" id="regAddress"
+                        formControlName="address" rows="2" placeholder="Village / City, State" required></textarea>
+                      <div class="invalid-feedback">Address is required.</div>
+                    </div>
+                  </div>
+
+                  <button type="button" (click)="onRegister()" class="btn w-100 fw-bold py-2" style="background:var(--primary);color:#fff;border-radius:var(--radius-sm);">
+                    <i class="bi bi-person-check me-2"></i>Create Account
+                  </button>
+                </form>
+
+                <p class="text-center mt-3 mb-0" style="font-size:0.875rem;color:var(--text-muted);">
+                  Already have an account?
+                  <a href="#" style="color:var(--primary);font-weight:600;text-decoration:none;" onclick="document.getElementById('login-tab').click();return false;">Login here</a>
+                </p>
+              </div>
+               }
+              
+            </div><!-- /.tab-content -->
+          </div><!-- /.auth-card -->
+
+        </div>
+      </div>
+    </div>
+  </div>
