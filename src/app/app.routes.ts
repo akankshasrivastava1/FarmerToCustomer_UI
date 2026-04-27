@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Login } from './pages/login/login';
-import { Category } from './pages/category/category';
 import { authGuard } from './core/guards/auth-guard';
 import { beforeDeactiveGuard } from './core/guards/before-deactive-guard';
+import { Master } from './pages/master/master';
+import { Product } from './pages/product/product';
 
 export const routes: Routes = [
     {
@@ -20,9 +21,13 @@ export const routes: Routes = [
         component: Login
     },
     {
-        path:'category',
-        component: Category,
-        canActivate: [authGuard],
-        canDeactivate: [beforeDeactiveGuard]
+        path:'master',
+        component: Master,
+        canActivate: [authGuard]
     },
+    {
+        path:'product',
+        component: Product,
+        canActivate: [authGuard]
+    }
 ];

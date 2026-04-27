@@ -9,13 +9,17 @@
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav mx-auto gap-1">
                 <li class="nav-item"><a class="nav-link active" href="home.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="product-list.html">Products</a></li>
-                  <li class="nav-item"><a class="nav-link" routerLink="/category">Categories</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/category">Categories</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Farmers</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                @if (loggedUserData.userId != 0) {
+                <li class="nav-item"><a class="nav-link" routerLink="/product">Products</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/master">Master</a></li>
+                }
+
             </ul>
             @if (loggedUserData.userId != 0) {
-                <div class="d-flex gap-2 mt-3 mt-1g-0 align-items-center" id="userProfile" style="display: none;">
+            <div class="d-flex gap-2 mt-3 mt-1g-0 align-items-center" id="userProfile" style="display: none;">
                 <div class="user-profile">
                     <div class="user-avatar" id="userInitial">{{loggedUserData.name.charAt(0)}}</div>
                     <div class="user-info">
@@ -28,18 +32,18 @@
                         style="background:var(--accent);">3</span>
                 </a>
                 <button class="btn-logout" (click)="onLogOff()">Log Out</button>
-                </div>
-                } @else {
-                <div class="d-flex gap-2 align-items-center mt-2 mt-lg-0">
-                    <a href="cart.html" class="nav-link position-relative">
-                        <i class="bi bi-cart3 fs-5 text-white"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                            style="background:var(--accent);">3</span>
-                    </a>
-                    <a routerLink="/login" class="btn btn-nav-login ms-2">Login</a>
-                    <a routerLink="/register" class="btn btn-nav-login ms-2">Register</a>
-                </div>
-                }
+            </div>
+            } @else {
+            <div class="d-flex gap-2 align-items-center mt-2 mt-lg-0">
+                <a href="cart.html" class="nav-link position-relative">
+                    <i class="bi bi-cart3 fs-5 text-white"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                        style="background:var(--accent);">3</span>
+                </a>
+                <a routerLink="/login" class="btn btn-nav-login ms-2">Login</a>
+                <a routerLink="/register" class="btn btn-nav-login ms-2">Register</a>
+            </div>
+            }
         </div>
     </div>
 </nav>

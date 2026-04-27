@@ -6,7 +6,7 @@ import { Roles } from '../../core/enum/Role.enum';
 import { CommonImports } from '../../core/constant/CommonImports';
 import { ApiResponseModel, IRole, LoginResponse } from '../../core/models/interface/api-response.Model';
 import { GlobalConstant } from '../../core/constant/Constant';
-import { Master } from '../../core/services/master';
+import { MasterService } from '../../core/services/master';
 import { NgClass } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -20,7 +20,7 @@ export class Login {
 
   userSrv = inject(UserService)
   router = inject(Router);
-  masterSrv = inject(Master)
+  masterSrv = inject(MasterService)
   fb = inject(FormBuilder)
 
   loginObj: UserLogin = new UserLogin(); //object of the class 
