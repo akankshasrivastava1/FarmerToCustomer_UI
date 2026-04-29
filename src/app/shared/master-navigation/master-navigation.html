@@ -1,0 +1,28 @@
+<ul class="nav custom-tabs">
+
+  <li class="nav-item">
+    <button class="nav-link"
+            [class.active]="activeTab === 'PRODUCT'"
+            (click)="selectTab('PRODUCT')">
+      <i class="bi bi-box-seam"></i> Products
+    </button>
+  </li>
+
+  <li class="nav-item">
+    <button class="nav-link"
+            [class.active]="activeTab === 'ROLE'"
+            (click)="selectTab('ROLE')">
+      <i class="bi bi-person-badge"></i> Roles
+    </button>
+  </li>
+
+  <li class="nav-item">
+    <button class="nav-link"
+            [class.active]="activeTab === 'CATEGORY'"
+            (click)="selectTab('CATEGORY')">
+      <i class="bi bi-folder"></i> Categories
+    </button>
+  </li>
+
+</ul>
+``

@@ -13,7 +13,7 @@ export class MasterService {
 
   http = inject(HttpClient);
 
-  getAllRoles():Observable<ApiResponseModel>{
+  getAllRoles(): Observable<ApiResponseModel> {
     return this.http.get<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_ROLES)
   }
 
@@ -25,17 +25,31 @@ export class MasterService {
     return this.http.put<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.UPDATE_ROLE + roleObj.roleId, roleObj);
   }
 
-  createCategory(cateObj: Category): Observable<ApiResponseModel>{
-    return this.http.post<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.CREATE_CATEGORY, cateObj);
+  deleteRole(id: number): Observable<ApiResponseModel> {
+    return this.http.delete<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.DELETE_ROLE + id);
   }
 
-   updateCategory(cateObj: Category): Observable<ApiResponseModel> {
+ 
+createCategory(cateObj: Category): Observable<ApiResponseModel>{
+  return this.http.post<ApiResponseModel>(
+    environment.API_URL + GlobalConstant.API_ENDPOINTS.CREATE_CATEGORY,
+    cateObj
+  );
+}
+
+  updateCategory(cateObj: Category): Observable<ApiResponseModel> {
     return this.http.put<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.UPDATE_CATEGORY + cateObj.categoryId, cateObj);
   }
 
-  getAllCategory():Observable<ApiResponseModel>{
-    return this.http.get<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_CATEGORY)
+ 
+getAllCategory(): Observable<ApiResponseModel> {
+  return this.http.get<ApiResponseModel>(
+    environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_CATEGORY
+  );
+}
+
+  deleteCategory(id: number): Observable<ApiResponseModel> {
+    return this.http.delete<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.DELETE_CATEGORY + id);
   }
 
-  
 }

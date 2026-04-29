@@ -7,11 +7,11 @@ export interface LoginResponse {
 }
 
 export interface ApiResponseModel {
-data: any;
-message: string;
+    data: any;
+    message: string;
 }
 
 export interface IRole {
-roleId: number;
-roleName: string;
+    roleId: number;
+    roleName: string;
 }

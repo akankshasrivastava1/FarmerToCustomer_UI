@@ -35,26 +35,7 @@ body {
   line-height: 1.6;
 }
 
-/* ── Navbar ── */
-.navbar-brand .brand-logo {
-  width: 36px; height: 36px;
-  background: var(--accent);
-  border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-right: 8px;
-}
-.navbar-custom {
-  background: var(--primary-dark) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-  padding: 12px 0;
-}
-.navbar-custom .navbar-brand { color: #fff !important; font-weight: 700; font-size: 1.3rem; }
-.navbar-custom .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; padding: 6px 14px; border-radius: 8px; transition: var(--transition); }
-.navbar-custom .nav-link:hover, .navbar-custom .nav-link.active { color: #fff !important; background: rgba(255,255,255,0.12); }
-.navbar-custom .nav-link .badge { font-size: 0.65rem; }
-.btn-nav-login { background: var(--accent) !important; color: #fff !important; border-radius: 8px !important; font-weight: 600 !important; padding: 6px 20px !important; }
-.btn-nav-login:hover { background: var(--accent-light) !important; }
-
+it
 /* ── Buttons ── */
 .btn-primary-custom {
   background: var(--primary); color: #fff; border: none;
@@ -152,11 +133,7 @@ body {
 .farmer-rating { font-size: 0.85rem; color: var(--accent); }
 
 /* ── Footer ── */
-.footer { background: var(--primary-dark); color: rgba(255,255,255,0.8); padding: 60px 0 24px; }
-.footer h6 { color: #fff; font-weight: 700; margin-bottom: 16px; }
-.footer a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.875rem; display: block; margin-bottom: 8px; transition: var(--transition); }
-.footer a:hover { color: var(--primary-lighter); }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 20px; margin-top: 40px; font-size: 0.8rem; }
+
 
 /* ── Auth Page ── */
 .auth-page { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%); padding: 40px 0; }
@@ -220,7 +197,7 @@ body {
 @media (max-width: 576px) {
   .table img { max-width: 40px; height: 40px; }
   .action-btn { width: 26px; height: 26px; font-size: 0.8rem; }
-} */
+} 
 
 /* ── Cart Page ── */
 .cart-page { padding: 40px 0; }

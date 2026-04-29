@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Roles } from './roles';
+import { DeleteConfirmation } from './delete-confirmation';
 
-describe('Roles', () => {
-  let component: Roles;
-  let fixture: ComponentFixture<Roles>;
+describe('DeleteConfirmation', () => {
+  let component: DeleteConfirmation;
+  let fixture: ComponentFixture<DeleteConfirmation>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Roles],
+      imports: [DeleteConfirmation],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Roles);
+    fixture = TestBed.createComponent(DeleteConfirmation);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

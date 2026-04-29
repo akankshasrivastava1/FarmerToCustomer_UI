@@ -76,12 +76,15 @@ export class Login {
   }
 
   onLogin() {
-    const loginDat = {};
-   
+  
     this.userSrv.login(this.loginObj).subscribe({
       next:(res:LoginResponse) => {
-        debugger;
-        localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(res.data));
+        const loginPayload = {
+          ...res.data,
+        token: res.token
+        };
+        localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(loginPayload));
+        // localStorage.setItem(GlobalConstant.TOKEN_KEY,res.token)
         this.router.navigateByUrl("/home");
       },
       error:(error) =>{

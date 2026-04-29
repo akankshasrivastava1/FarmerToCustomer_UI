@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { UserLogin, UserModel } from '../models/classes/UserModel';
 import { environment } from '../../../environments/environment.development';
 import { GlobalConstant } from '../constant/Constant';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LoginResponse, ApiResponseModel } from '../models/interface/api-response.Model';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class UserService {
 
   http = inject(HttpClient);
   apiUrl: string = environment.API_URL;
+  onLogin$ : Subject<boolean> = new Subject<boolean>();
 
   login(obj: UserLogin): Observable<LoginResponse>{
     debugger;

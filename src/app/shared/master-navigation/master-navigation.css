@@ -1,0 +1,25 @@
+/* Master navigation links - keep same color */
+.nav.custom-tabs .nav-link {
+  color: var(--dark);          /* or your desired text color */
+  text-decoration: none;
+}
+
+/* Active tab color */
+.nav.custom-tabs .nav-link.active {
+  color: var(--primary);       /* highlight active tab */
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+}
+
+/* Hover effect */
+.nav.custom-tabs .nav-link:hover {
+  color: var(--primary);
+}
+
+.nav.custom-tabs .nav-link,
+.nav.custom-tabs .nav-link.active,
+.nav.custom-tabs .nav-link:hover {
+  color: var(--dark);
+  text-decoration: none;
+  border-bottom: none;
+}

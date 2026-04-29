@@ -11,3 +11,23 @@
 .btn-logout:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
 .auth-actions { display: none; }
 .auth-actions.show { display: flex; }
+
+/* ── Navbar ── */
+.navbar-brand .brand-logo {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 18px; margin-right: 8px;
+}
+.navbar-custom {
+  background: var(--primary-dark) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  padding: 12px 0;
+}
+.navbar-custom .navbar-brand { color: #fff !important; font-weight: 700; font-size: 1.3rem; }
+.navbar-custom .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; padding: 6px 14px; border-radius: 8px; transition: var(--transition); }
+.navbar-custom .nav-link:hover, .navbar-custom .nav-link.active { color: #fff !important; background: rgba(255,255,255,0.12); }
+.navbar-custom .nav-link .badge { font-size: 0.65rem; }
+.btn-nav-login { background: var(--accent) !important; color: #fff !important; border-radius: 8px !important; font-weight: 600 !important; padding: 6px 20px !important; }
+.btn-nav-login:hover { background: var(--accent-light) !important; }
