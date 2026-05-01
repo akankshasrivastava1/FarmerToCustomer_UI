@@ -93,7 +93,7 @@ it
   text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
   transition: var(--transition); cursor: pointer; text-decoration: none;
 }
-.category-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary-light); }
+.category-card:hover {  box-shadow: var(--shadow); border-color: var(--primary-light); }
 .category-icon { width: 64px; height: 64px; background: var(--primary-lightest); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 28px; transition: var(--transition); }
 .category-card:hover .category-icon { background: var(--primary); }
 .category-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
@@ -105,7 +105,7 @@ it
   box-shadow: var(--shadow-sm); border: 1px solid var(--border);
   transition: var(--transition);
 }
-.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.product-card:hover { box-shadow: var(--shadow); }
 .product-card .product-img { width: 100%; height: 200px; object-fit: cover; }
 .product-card .product-body { padding: 16px; }
 .product-name { font-size: 1rem; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
@@ -126,7 +126,7 @@ it
 
 /* ── Farmer Cards ── */
 .farmer-card { background: #fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: var(--transition); text-align: center; }
-.farmer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.farmer-card:hover { box-shadow: var(--shadow); }
 .farmer-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-lighter); margin-bottom: 12px; }
 .farmer-name { font-weight: 700; font-size: 1rem; color: var(--dark); }
 .farmer-location { font-size: 0.8rem; color: var(--text-muted); }
@@ -220,4 +220,77 @@ it
 @media (max-width: 768px) {
   .hero-title { font-size: 2rem; }
   .stat-divider { border: none; }
+}
+
+/* TABLE WRAPPER */
+.table-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 0;
+}
+
+/* ACTION BUTTONS */
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.action-btn i {
+  font-size: 16px;
+}
+
+/* ROLE / CATEGORY BADGES */
+.role-badge,
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 20px;
+}
+
+/* ACCENT BUTTON */
+.btn-accent {
+  background: #ff8c00;
+  color: #fff;
+}
+
+.btn-primary-custom {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+}
+
+/* Force modal to the very top */
+.modal {
+  position: fixed !important;
+  inset: 0;
+  z-index: 2000 !important;
+}
+
+/* Backdrop must stay below modal */
+.modal-backdrop {
+  z-index: 1999 !important;
+}
+
+/* VERY IMPORTANT: allow modal to escape content containers */
+.content-card,
+.tab-pane,
+.tab-content,
+.container {
+  overflow: visible !important;
 }

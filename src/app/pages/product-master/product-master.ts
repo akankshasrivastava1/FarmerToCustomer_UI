@@ -4,11 +4,15 @@ import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
 import { Category, Role } from '../../core/models/classes/Master.model';
 import { CommonModule, JsonPipe } from '@angular/common';
+import { Product } from "../product/product";
+import { RoleMaster } from "../role-master/role-master";
+import { CategoryMaster } from "../category-master/category-master";
+import { Modal } from 'bootstrap';
 
 
 @Component({
   selector: 'app-master',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, Product, RoleMaster, CategoryMaster],
   templateUrl: './product-master.html',
   styleUrl: './product-master.css',
 })
@@ -16,6 +20,7 @@ export class ProductMaster {
 
   roleForm!: FormGroup;
   categoryForm!: FormGroup;
+  
 
   currentTabVisiable = signal<string>("Role");
 
@@ -50,6 +55,7 @@ export class ProductMaster {
     this.createRoleForm();
     this.createCategoryForm();
   }
+
 
   toggleForm(tabName: string) {
     this.currentTabVisiable.set(tabName)

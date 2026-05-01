@@ -5,10 +5,11 @@ import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
 import { CommonModule } from '@angular/common';
 import { MasterNavigation } from "../../shared/master-navigation/master-navigation";
+import { Delete } from "../delete/delete";
 
 @Component({
   selector: 'app-category-master',
-  imports: [ReactiveFormsModule, CommonModule, MasterNavigation],
+  imports: [ReactiveFormsModule, CommonModule, Delete],
   templateUrl: './category-master.html',
   styleUrl: './category-master.css',
 })
@@ -22,6 +23,7 @@ export class CategoryMaster implements OnInit {
 
   formBuilder = inject(FormBuilder)
   mastesrv = inject(MasterService)
+  
 
   constructor() {
     this.createCategoryForm();
