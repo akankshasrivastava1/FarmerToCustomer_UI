@@ -1,0 +1,95 @@
+<!-- Page Header -->
+<div class="page-header master-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="bi bi-gear me-2"></i>Master Data Management
+                </h1>
+                <p class="page-subtitle">Manage products, roles, and categories for the platform</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Content -->
+<div class="container pb-5">
+    <div class="content-card">
+        <div class="p-4">
+            <!-- Tabs -->
+
+            <ul class="nav custom-tabs" id="masterTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+
+                    <button class="nav-link active" id="product-tab" data-bs-toggle="tab" data-bs-target="#productPane"
+                        type="button" role="tab" aria-selected="true">
+                        <i class="bi bi-box-seam"></i>Products
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="role-tab" data-bs-toggle="tab" data-bs-target="#rolePane" type="button"
+                        role="tab" aria-selected="false" [class.active]="currentTabVisiable() == 'Role'?'active':''"
+                        (click)="toggleForm('Role')">
+                        <i class="bi bi-person-badge"></i>Roles
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="category-tab" data-bs-toggle="tab" data-bs-target="#categoryPane"
+                        type="button" role="tab" aria-selected="false"
+                        [class.active]="currentTabVisiable() == 'Category'?'active':''"
+                        (click)="toggleForm('Category')">
+                        <i class="bi bi-folder"></i>Categories
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content" id="masterTabsContent">
+
+        <div class="tab-pane fade show active" id="productPane">
+            <app-product></app-product>
+        </div>
+
+        <div class="tab-pane fade" id="rolePane">
+            <app-role-master></app-role-master>
+        </div>
+
+        <div class="tab-pane fade" id="categoryPane">
+            <app-category-master></app-category-master>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Delete Modal (shared) -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--danger);">
+                <h5 class="modal-title fw-bold" id="deleteModalLabel"><i
+                        class="bi bi-exclamation-triangle me-2 "></i>Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <div
+                    style="width: 80px; height: 80px; background: #ffeaee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <i class="bi bi-trash" style="font-size: 2rem; color: var(--danger);"></i>
+                </div>
+                <h5 class="fw-bold" style="color: var(--dark);">
+                    <p class="text-muted">Are you sure you want to delete this<strong>{{ deleteType === 'ROLE' ?
+                            'Role'
+                            : 'Category' }}</strong>? </p>
+                </h5>
+            </div>
+            <div class="modal-footer justify-content-center" style="border-top: 1px solid var(--border);">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                    style="border-radius: var(--radius-sm);"><i class="bi bi-x-circle me-1"></i>Cancel</button>
+                <button type="button" class="btn"
+                    style="background: var(--danger); color: #fff; border-radius: var(--radius-sm);" (click)="deleteType === 'ROLE'
+                  ? onDeleteRole(selectedDeleteId!)
+                  : onDeleteCategory(selectedDeleteId!)" data-bs-dismiss="modal"><i
+                        class="bi bi-trash me-2"></i>Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

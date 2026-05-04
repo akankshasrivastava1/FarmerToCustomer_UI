@@ -1,192 +1,192 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Category, ProductMasters } from '../../core/models/classes/Master.model';
 import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
-import { Category, Role } from '../../core/models/classes/Master.model';
-import { CommonModule, JsonPipe } from '@angular/common';
-import { Product } from "../product/product";
-import { RoleMaster } from "../role-master/role-master";
-import { CategoryMaster } from "../category-master/category-master";
-import { Modal } from 'bootstrap';
-
+import { CommonModule } from '@angular/common';
+import { Delete } from "../delete/delete";
 
 @Component({
-  selector: 'app-master',
-  imports: [ReactiveFormsModule, CommonModule, Product, RoleMaster, CategoryMaster],
+  selector: 'app-product-master',
+  imports: [ReactiveFormsModule, CommonModule, Delete],
   templateUrl: './product-master.html',
   styleUrl: './product-master.css',
 })
-export class ProductMaster {
-
-  roleForm!: FormGroup;
-  categoryForm!: FormGroup;
-  
-
-  currentTabVisiable = signal<string>("Role");
-
-  deleteType: 'ROLE' | 'CATEGORY' | null = null;
+export class ProductMaster implements OnInit {
+  productForm!: FormGroup;
+  deleteType: 'PRODUCT' | null = null;
   selectedDeleteId: number | null = null;
+  productList = signal<ProductMasters[]>([]);
+  categoryList = signal<Category[]>([]);
+  isEditMode = signal<boolean>(false);
+  searchTerm = signal<string>('');
 
-  roleList = signal<Role[]>([])
-  categoryList = signal<Category[]>([])
+  formBuilder = inject(FormBuilder);
+  masterSrv = inject(MasterService);
 
-  formBuilder = inject(FormBuilder)
-  mastesrv = inject(MasterService)
-
-
-  // // This controls which tab is visible
-  //   activeTab = signal<'PRODUCT' | 'ROLE' | 'CATEGORY'>('PRODUCT');
-
-  //   // Called when a tab is clicked
-  //   onTabChange(tab: 'PRODUCT' | 'ROLE' | 'CATEGORY') {
-  //     this.activeTab.set(tab);
-  //   }
-
+  @ViewChild(Delete) deleteComp!: Delete;
 
   constructor() {
-    this.createCategoryForm();
-    this.createRoleForm()
+    this.createProductForm();
   }
 
   ngOnInit(): void {
-    this.getAllRole();
-    this.categoryList();
-    // this.categoryList.set([{ categoryId: 1, name: 'TEST CATEGORY' } as any]);
-    this.createRoleForm();
-    this.createCategoryForm();
+    //this.getAllProducts();
+    this.getAllProductMaster();
+    this.getAllCategories();
+    console.log('ProductMaster loaded');
   }
 
-
-  toggleForm(tabName: string) {
-    this.currentTabVisiable.set(tabName)
-    if (tabName === 'Category') {
-      this.getAllCategory(); //  ensures data always loads
-    }
-
+  openDelete(productId: number) {
+    this.deleteComp.open('MASTERPRODUCT', productId);
   }
 
-  createRoleForm() {
-    this.roleForm = new FormGroup({
-      roleId: new FormControl(0),
-      roleName: new FormControl('')
-    })
-  }
-
-  createCategoryForm() {
-    this.categoryForm = this.formBuilder.group({
-      categoryId: [0],
-      name: ['']
-    })
-  }
-
-
-  // onUpdateRole(){
-  //   const formValue = this.roleForm.value;
-  //   this.mastesrv.updateRole(formValue).subscribe({
-  //     next:(rs: ApiResponseModel) =>{
-  //       alert("role updated");
-  //       this.getAllRole()
-  //     }
-  //   })
-  // }
-
-  onUpdateRole() {
-    const formValue = this.roleForm.value;
-    this.mastesrv.updateRole(formValue).subscribe({
-      next: () => {
-        alert("Role updated");
-        const editRec = this.roleList().find(m => m.roleId == formValue.roleId);
-        if (editRec !== undefined) {
-          editRec.roleName = formValue.roleName;
-        }
-        //this.roleForm.reset({ roleId: 0, roleName: '' }); // ✅ reset form
-        this.getAllRole();
-      }
+  createProductForm() {
+    this.productForm = this.formBuilder.group({
+      productId: [0],
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      //price: [0, [Validators.required, Validators.min(0)]],
+      categoryId: [0, [Validators.required]],
+      image: ['', [Validators.required]]
     });
   }
 
-  onUpdateCategory() {
-    const formValue = this.categoryForm.value;
-    this.mastesrv.updateCategory(formValue).subscribe({
+  getAllProducts() {
+    this.masterSrv.getAllProducts().subscribe({
       next: (rs: ApiResponseModel) => {
-        alert("Category Updated");
-        this.getAllCategory()
-      }
-    })
-  }
-
-  onRoleEdit(roleData: Role) {
-    this.roleForm.patchValue(roleData) //reininitialize the value
-  }
-
-  //   onCategoryEdit(cat: Category) {
-  //   this.categoryForm.setValue(cat);
-  // }
-
-  onCategoryEdit(cat: Category) {
-    this.categoryForm.patchValue({
-      categoryId: cat.categoryId,
-      name: cat.name
-    });
-  }
-
-  onDeleteRole(roleId: number) {
-    this.mastesrv.deleteRole(roleId).subscribe({
-      next: () => {
-        alert('Role Deleted');
-        this.getAllRole();
+        this.productList.set(rs.data);
+      },
+      error: (err) => {
+        console.error('Error loading products:', err);
       }
     });
   }
 
-  onDeleteCategory(categoryId: number) {
-    this.mastesrv.deleteCategory(categoryId).subscribe({
-      next: () => {
-        alert('Category Deleted');
-        this.getAllCategory();
-      }
-    });
-  }
-
-  onSaveRole() {
-    const formValue = this.roleForm.value;
-    this.mastesrv.createRole(formValue).subscribe({
-      next: () => {
-        alert("Role saved");
-        // this.roleForm.reset({ roleId: 0, roleName: '' });
-        this.getAllRole();
-        this.roleForm.reset()
-      }
-    });
-  }
-
-  onSaveCategory() {
-    const formValue = this.categoryForm.value;
-    this.mastesrv.createCategory(formValue).subscribe({
+  getAllProductMaster() {
+    this.masterSrv.getAllProductMaster().subscribe({
       next: (rs: ApiResponseModel) => {
-        alert("Category Saved");
-        this.getAllCategory();
-
+        this.productList.set(rs.data);
       }
-    })
+    });
   }
-
-  getAllRole() {
-    this.mastesrv.getAllRoles().subscribe({
-      next: (rs: ApiResponseModel) => {
-        this.roleList.set(rs.data)
-      }
-    })
-  }
-
-  getAllCategory() {
-    this.mastesrv.getAllCategory().subscribe({
+  getAllCategories() {
+    this.masterSrv.getAllCategory().subscribe({
       next: (rs: ApiResponseModel) => {
         this.categoryList.set(rs.data);
       },
       error: (err) => {
-        console.error(err);
+        console.error('Error loading categories:', err);
       }
-    })
+    });
+  }
+
+  onSaveProduct() {
+    if (this.productForm.valid) {
+      const formValue = this.productForm.value;
+      this.masterSrv.createProduct(formValue).subscribe({
+        next: (rs: ApiResponseModel) => {
+          alert('Product Saved Successfully');
+          //this.getAllProducts();
+          this.getAllProductMaster()
+          this.resetProductForm();
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error saving product:', err);
+          alert('Error saving product');
+        }
+      });
+    }
+  }
+
+  onUpdateProduct() {
+    if (this.productForm.valid) {
+      const formValue = this.productForm.value;
+      this.masterSrv.updateProduct(formValue).subscribe({
+        next: (rs: ApiResponseModel) => {
+          alert('Product Updated Successfully');
+          this.getAllProductMaster();
+          this.resetProductForm();
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error updating product:', err);
+          alert('Error updating product');
+        }
+      });
+    }
+  }
+
+  onProductEdit(product: ProductMasters) {
+    this.isEditMode.set(true);
+    this.productForm.patchValue({
+      productId: product.productId,
+      name: product.name,
+      description: product.description,
+      categoryId: product.categoryId,
+      image: product.image
+    });
+  }
+
+  onDeleteProduct(productId: number) {
+    this.masterSrv.deleteProduct(productId).subscribe({
+      next: () => {
+        alert('Product Deleted Successfully');
+        this.getAllProducts();
+      },
+      error: (err) => {
+        console.error('Error deleting product:', err);
+        alert('Error deleting product');
+      }
+    });
+  }
+
+  resetProductForm() {
+    this.productForm.reset({
+      productId: 0,
+      name: '',
+      description: '',
+      categoryId: 0,
+      image: ''
+    });
+    this.isEditMode.set(false);
+  }
+
+  openModal() {
+    this.isEditMode.set(false);
+    this.resetProductForm();
+  }
+
+  closeModal() {
+    const modal = document.getElementById('productModal') as any;
+    if (modal) {
+      const bootstrapModal = (window as any).bootstrap.Modal.getInstance(modal);
+      bootstrapModal?.hide();
+    }
+  }
+
+  getCategoryName(categoryId: number): string {
+    const category = this.categoryList().find(cat => cat.categoryId === categoryId);
+    return category ? category.name : 'N/A';
+  }
+
+  getFilteredProducts() {
+    const search = this.searchTerm().toLowerCase();
+    if (!search) return this.productList();
+    return this.productList().filter(product =>
+      product.name.toLowerCase().includes(search) ||
+      product.description.toLowerCase().includes(search)
+    );
+  }
+
+  getDashboardStats() {
+    const products = this.productList();
+    return {
+      totalProducts: products.length,
+      // totalValue: products.reduce((sum, p) => sum + (p.price || 0), 0),
+      //avgPrice: products.length > 0 ? products.reduce((sum, p) => sum + (p.price || 0), 0) / products.length : 0,
+      totalCategories: new Set(products.map(p => p.categoryId)).size
+    };
   }
 }

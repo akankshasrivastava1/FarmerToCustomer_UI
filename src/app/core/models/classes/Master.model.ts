@@ -17,3 +17,38 @@ export class Category{
         this.name ='';
     }
 }
+
+export class Product{
+    productId: number;
+    name: string;
+    description: string;
+    price: number;
+    categoryId: number;
+    imageUrl: string;
+
+    constructor(){
+        this.productId = 0;
+        this.name = '';
+        this.description = '';
+        this.price = 0;
+        this.categoryId = 0;
+        this.imageUrl = '';
+    }
+}
+
+export class ProductMasters {
+  productId: number
+  name: string
+  categoryId: number
+  description: string
+  image: string;
+
+  constructor(){
+        this.productId = 0;
+        this.name = '';
+        this.categoryId = 0;
+        this.description = '';
+        this.image = '';
+    }
+}
+

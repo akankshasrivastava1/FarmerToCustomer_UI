@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Category } from '../../core/models/classes/Master.model';
 import { MasterService } from '../../core/services/master';
@@ -19,11 +19,12 @@ export class CategoryMaster implements OnInit {
   selectedDeleteId: number | null = null;
   categoryList = signal<Category[]>([])
 
-  currentTabVisiable = signal<string>("Role");
+  currentTabVisiable = signal<string>("CATEGORY");
 
   formBuilder = inject(FormBuilder)
   mastesrv = inject(MasterService)
   
+  @ViewChild(Delete) deleteComp!: Delete;
 
   constructor() {
     this.createCategoryForm();
@@ -34,6 +35,10 @@ ngOnInit(): void {
   this.getAllCategory();  
   console.log('CategoryMaster loaded');
 }
+
+openDelete(categoryId: number) {
+    this.deleteComp.open('CATEGORY', categoryId);
+  }
 
 
   toggleForm(tabName: string) {

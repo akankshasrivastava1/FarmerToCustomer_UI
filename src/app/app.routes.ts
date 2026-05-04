@@ -6,8 +6,10 @@ import { beforeDeactiveGuard } from './core/guards/before-deactive-guard';
 
 import { RoleMaster } from './pages/role-master/role-master';
 import { CategoryMaster } from './pages/category-master/category-master';
-import { ProductMaster } from './pages/product-master/product-master';
+import { Master } from './pages/master/master';
 import { MasterNavigation } from './shared/master-navigation/master-navigation';
+import { Product } from './pages/product/product';
+import { ProductMaster } from './pages/product-master/product-master';
 
 export const routes: Routes = [
     {
@@ -25,9 +27,19 @@ export const routes: Routes = [
     },
     {
         path: 'master',
-        component: ProductMaster,
+        component: Master,
         canActivate: [authGuard]
     },
+    {
+        path: 'product',
+        component: Product,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'productMaster',
+        component: ProductMaster,
+        canActivate: [authGuard]
+    }
  
     // {
     //     path: 'master',

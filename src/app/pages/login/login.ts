@@ -84,7 +84,8 @@ export class Login {
         token: res.token
         };
         localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(loginPayload));
-        // localStorage.setItem(GlobalConstant.TOKEN_KEY,res.token)
+        localStorage.setItem(GlobalConstant.TOKEN_KEY,res.token)
+        this.userSrv.onLogin$.next(true);
         this.router.navigateByUrl("/home");
       },
       error:(error) =>{

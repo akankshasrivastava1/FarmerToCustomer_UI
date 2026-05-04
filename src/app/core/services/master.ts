@@ -4,7 +4,8 @@ import { environment } from '../../../environments/environment.development';
 import { GlobalConstant } from '../constant/Constant';
 import { Observable } from 'rxjs';
 import { ApiResponseModel } from '../models/interface/api-response.Model';
-import { Category, Role } from '../models/classes/Master.model';
+import { Category, Role, Product } from '../models/classes/Master.model';
+import { ProductMaster } from '../../pages/product-master/product-master';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,44 @@ getAllCategory(): Observable<ApiResponseModel> {
 
   deleteCategory(id: number): Observable<ApiResponseModel> {
     return this.http.delete<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.DELETE_CATEGORY + id);
+  }
+
+  createProduct(productObj: Product): Observable<ApiResponseModel>{
+    return this.http.post<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.CREATE_PRODUCT,
+      productObj
+    );
+  }
+
+  createProductMaster(productObj: ProductMaster): Observable<ApiResponseModel>{
+    return this.http.post<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.CREATE_PRODUCT_MASTER,
+      productObj
+    );
+  }
+
+  updateProduct(productObj: Product): Observable<ApiResponseModel> {
+    return this.http.put<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.UPDATE_PRODUCT + productObj.productId, productObj);
+  }
+
+  getAllProducts(): Observable<ApiResponseModel> {
+    return this.http.get<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_PRODUCTS
+    );
+  }
+
+  getAllProductMaster(): Observable<ApiResponseModel> {
+    return this.http.get<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_PRODUCTS_MASTER
+    );
+  }
+
+   deleteProductMaster(id: number): Observable<ApiResponseModel> {
+    return this.http.delete<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.DELETE_PRODUCT_MASTER + id);
+  }
+
+  deleteProduct(id: number): Observable<ApiResponseModel> {
+    return this.http.delete<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.DELETE_PRODUCT + id);
   }
 
 }

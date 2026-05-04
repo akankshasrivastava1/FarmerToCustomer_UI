@@ -13,7 +13,15 @@ export const GlobalConstant = {
         CREATE_CATEGORY:'farmerCategories/create-category',
         GET_ALL_CATEGORY: 'farmerCategories/get-all-categories',
         UPDATE_CATEGORY: 'farmerCategories/update-category/',
-        DELETE_CATEGORY: 'farmerCategories/delete-category/'
+        DELETE_CATEGORY: 'farmerCategories/delete-category/',
+        CREATE_PRODUCT:'farmerProducts/create-product',
+        GET_ALL_PRODUCTS: 'farmerProducts/get-all-products',
+        UPDATE_PRODUCT: 'farmerProducts/update-product/',
+        DELETE_PRODUCT: 'farmerProducts/delete-product/',
+        CREATE_PRODUCT_MASTER:'farmerProducts/create-product',
+        UPDATE_PRODUCT_MASTER: 'farmerProducts/update-product/',
+        DELETE_PRODUCT_MASTER: 'farmerProducts/delete-product/',
+        GET_ALL_PRODUCTS_MASTER: 'farmerProducts/get-all-products-with-joins'
     },
 
     VALIDATION_MESSAGE: {

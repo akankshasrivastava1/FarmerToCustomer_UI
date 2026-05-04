@@ -1,6 +1,132 @@
 
+<!-- Tab Navigation -->
+<div class="custom-tabs">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="farmer-product-tab" data-bs-toggle="tab" data-bs-target="#farmerProductPane" 
+                type="button" role="tab" aria-controls="farmerProductPane" aria-selected="true">
+                <i class="bi bi-shop me-2"></i>Farmer Products
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="product-tab" data-bs-toggle="tab" data-bs-target="#productPane" 
+                type="button" role="tab" aria-controls="productPane" aria-selected="false">
+                <i class="bi bi-box-seam me-2"></i>Products
+            </button>
+        </li>
+    </ul>
+</div>
+
+<div class="tab-content">
+    <!-- Farmer Product CRUD -->
+    <div class="tab-pane fade show active" id="farmerProductPane" role="tabpanel" aria-labelledby="farmer-product-tab">
+        <div class="row mb-4 dashboard-summary">
+            <div class="col-md-4 mb-3">
+                <div class="card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Total Products</span>
+                        <i class="bi bi-box-seam fs-4 text-primary"></i>
+                    </div>
+                    <h3>{{ farmerProductList().length }}</h3>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Active</span>
+                        <i class="bi bi-check-circle fs-4 text-success"></i>
+                    </div>
+                    <h3>{{ getStatusCount('Active') }}</h3>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Total Quantity</span>
+                        <i class="bi bi-stack fs-4 text-warning"></i>
+                    </div>
+                    <h3>{{ getTotalQuantity() }} Kg</h3>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#farmerProductModal" (click)="openFarmerProductModal()">
+                <i class="bi bi-plus-circle me-2"></i>Add Farmer Product
+            </button>
+        </div>
+        <div class="table-card">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Image</th>
+                        <th style="width: 100px;">Farmer ID</th>
+                        <th style="width: 100px;">Product ID</th>
+                        <th style="width: 120px;">Price/Kg</th>
+                        <th style="width: 130px;">Quantity</th>
+                        <th style="width: 140px;">Available Date</th>
+                        <th style="width: 100px;">Status</th>
+                        <th style="width: 120px; text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(farmerProductList() && farmerProductList().length > 0) {
+                        @for (item of farmerProductList(); track item.farmerProductId) {
+                        <tr>
+                            <td>
+                                @if(item.productImage || item.imageUrl) {
+                                    <img [src]="item.productImage || item.imageUrl" alt="Product" 
+                                        style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                                } @else {
+                                    <div style="width:60px;height:60px;background:var(--primary-lightest);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                                        <i class="bi bi-image" style="color: var(--primary);"></i>
+                                    </div>
+                                }
+                            </td>
+                            <td class="font-weight-bold">{{item.farmerId}}</td>
+                            <td>{{item.productId}}</td>
+                            <td>
+                                <span class="badge" style="background: var(--primary-lightest); color: var(--primary);">
+                                    ₹{{item.pricePerKg.toFixed(2)}}
+                                </span>
+                            </td>
+                            <td>{{item.availableQuantity}} Kg</td>
+                            <td>{{item.availableDate | date:'dd-MMM-yyyy'}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                    'bg-success': item.status === 'Active',
+                                    'bg-warning': item.status === 'Inactive',
+                                    'bg-danger': item.status === 'Unavailable'
+                                }">
+                                    {{item.status}}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <button class="action-btn action-btn-edit" title="Edit" data-bs-toggle="modal"
+                                        data-bs-target="#farmerProductModal" (click)="onEditFarmerProduct(item)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="action-btn action-btn-delete" title="Delete" (click)="openDelete(item.farmerProductId)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    } @else {
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                No farmer products found. Click "Add Farmer Product" to create one.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- Product CRUD -->
-    <div class="tab-pane fade show active" id="productPane" role="tabpanel" aria-labelledby="product-tab">
+    <div class="tab-pane fade" id="productPane" role="tabpanel" aria-labelledby="product-tab">
         <div class="d-flex justify-content-end mb-3">
             <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#productModal">
                 Add Product
@@ -36,7 +162,6 @@
                             </div>
                         </td>
                     </tr>
-                    <!-- ...more sample rows... -->
                 </tbody>
             </table>
         </div>
@@ -44,6 +169,127 @@
 
 
 
+
+<!-- Farmer Product Modal -->
+<div class="modal fade" id="farmerProductModal" tabindex="-1" aria-labelledby="farmerProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="farmerProductModalLabel">
+                    <i class="bi bi-shop me-2"></i>{{ isEditMode() ? 'Edit' : 'Add' }} Farmer Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form [formGroup]="farmerProductForm">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <input type="hidden" formControlName="farmerProductId">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="farmerId">
+                                <i class="bi bi-person-circle me-1" style="color: var(--primary);"></i>Farmer ID
+                            </label>
+                            <input type="number" class="form-control" id="farmerId" formControlName="farmerId" placeholder="Enter farmer ID" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="productId">
+                                <i class="bi bi-box me-1" style="color: var(--primary);"></i>Product ID
+                            </label>
+                            <input type="number" class="form-control" id="productId" formControlName="productId" placeholder="Enter product ID" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="pricePerKg">
+                                <i class="bi bi-tag me-1" style="color: var(--primary);"></i>Price Per Kg
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">₹</span>
+                                <input type="number" class="form-control" id="pricePerKg" formControlName="pricePerKg" 
+                                    placeholder="0.00" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="availableQuantity">
+                                <i class="bi bi-box2-heart me-1" style="color: var(--primary);"></i>Available Quantity (Kg)
+                            </label>
+                            <input type="number" class="form-control" id="availableQuantity" formControlName="availableQuantity" 
+                                placeholder="0" step="0.01" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="availableDate">
+                                <i class="bi bi-calendar-event me-1" style="color: var(--primary);"></i>Available Date
+                            </label>
+                            <input type="datetime-local" class="form-control" id="availableDate" formControlName="availableDate" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="status">
+                                <i class="bi bi-activity me-1" style="color: var(--primary);"></i>Status
+                            </label>
+                            <select class="form-select" id="status" formControlName="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Unavailable">Unavailable</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">
+                                <i class="bi bi-image me-1" style="color: var(--primary);"></i>Product Image
+                            </label>
+                            <div class="mb-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imageSource" id="imageFile" value="file"
+                                        [checked]="imageSource() === 'file'" (change)="onImageSourceChange('file')">
+                                    <label class="form-check-label" for="imageFile">
+                                        Upload File
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imageSource" id="imageUrl" value="url"
+                                        [checked]="imageSource() === 'url'" (change)="onImageSourceChange('url')">
+                                    <label class="form-check-label" for="imageUrl">
+                                        Image URL
+                                    </label>
+                                </div>
+                            </div>
+                            <div [style.display]="imageSource() === 'file' ? 'block' : 'none'">
+                                <input type="file" class="form-control" id="productImageFile" accept="image/*" 
+                                    (change)="onImageSelected($event)" placeholder="Upload product image">
+                                <small class="text-muted">Accepted formats: JPG, PNG, GIF, WebP (Max: 5MB)</small>
+                            </div>
+                            <div [style.display]="imageSource() === 'url' ? 'block' : 'none'">
+                                <input type="url" class="form-control" id="productImageUrl" formControlName="imageUrl" 
+                                    placeholder="https://example.com/image.jpg">
+                                <small class="text-muted">Enter a valid image URL</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="border rounded p-3 text-center image-preview-container" style="background: var(--primary-lightest);">
+                                <img [src]="getPreviewImage()" 
+                                    alt="Preview" style="max-width: 200px; max-height: 150px; border-radius: var(--radius-sm);">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid var(--border);">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="resetFarmerProductForm()"
+                    style="border-radius: var(--radius-sm);">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </button>
+                @if(!isEditMode()) {
+                    <button type="button" class="btn btn-primary-custom" (click)="onSaveFarmerProduct()">
+                        <i class="bi bi-check-circle me-2"></i>Save Product
+                    </button>
+                } @else {
+                    <button type="button" class="btn btn-primary-custom" (click)="onUpdateFarmerProduct()">
+                        <i class="bi bi-check-circle me-2"></i>Update Product
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Product Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
@@ -106,4 +352,6 @@
         </div>
     </div>
 </div>
+</div>
+
 <app-delete></app-delete>

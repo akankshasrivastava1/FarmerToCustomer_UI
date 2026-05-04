@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GlobalConstant } from '../../../core/constant/Constant';
 import { UserModel } from '../../../core/models/classes/UserModel';
+import { UserService } from '../../../core/services/user-service';
+import { LoginResponse } from '../../../core/models/interface/api-response.Model';
 
 @Component({
   selector: 'app-header',
@@ -12,14 +14,25 @@ import { UserModel } from '../../../core/models/classes/UserModel';
 export class Header {
 
   loggedUserData: UserModel = new UserModel();
+  userService = inject(UserService)
 
-  constructor(){
+  constructor() {
+    this.readLoggedData();
+    this.userService.onLogin$.subscribe({
+      next: () => {
+        this.readLoggedData();
+      }
+    })
+  }
+
+  readLoggedData() {
     const localData = localStorage.getItem(GlobalConstant.LOCAL_LOGIN_KEY);
-    if(localData != null) {
+    if (localData != null) {
       this.loggedUserData = JSON.parse(localData)
     }
   }
-  onLogOff(){
+
+  onLogOff() {
     localStorage.removeItem(GlobalConstant.LOCAL_LOGIN_KEY);
     this.loggedUserData = new UserModel();
   }

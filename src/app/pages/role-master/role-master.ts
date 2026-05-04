@@ -1,5 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { DeleteConfirmation } from '../../shared/delete-confirmation/delete-confirmation';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Role } from '../../core/models/classes/Master.model';
 import { MasterService } from '../../core/services/master';
@@ -30,8 +29,14 @@ export class RoleMaster implements OnInit {
   fb = inject(FormBuilder);
   mastersrv = inject(MasterService);
 
+  @ViewChild(Delete) deleteComp!: Delete;
+
   constructor() {
     this.createRoleForm();
+  }
+
+  openDelete(id: number) {
+    this.deleteComp.open('ROLE', id);
   }
 
   ngOnInit(): void {
