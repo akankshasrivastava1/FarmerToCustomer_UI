@@ -2,24 +2,15 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Delete } from "../delete/delete";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FarmerProduct } from '../../core/models/interface/api-response.Model'
 
-interface FarmerProduct {
-  farmerProductId: number;
-  farmerId: number;
-  productId: number;
-  pricePerKg: number;
-  availableQuantity: number;
-  availableDate: string;
-  status: string;
-  productImage?: string;
-  imageUrl?: string;
-}
+
 
 @Component({
   selector: 'app-product',
   imports: [Delete, ReactiveFormsModule, CommonModule],
-  templateUrl: './product.html',
-  styleUrl: './product.css',
+  templateUrl: './farmer-product.html',
+  styleUrl: './farmer-product.css',
 })
 export class Product implements OnInit {
 

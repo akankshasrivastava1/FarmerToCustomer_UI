@@ -38,7 +38,7 @@ export class ProductMaster implements OnInit {
   }
 
   openDelete(productId: number) {
-    this.deleteComp.open('MASTERPRODUCT', productId);
+    this.deleteComp.open('PRODUCTMASTER', productId);
   }
 
   createProductForm() {

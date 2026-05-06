@@ -12,24 +12,24 @@ import { Category, Role, Product, ProductMasters } from '../../core/models/class
 export class Delete implements AfterViewInit {
 
   @ViewChild('deleteModal') modalEl!: ElementRef;
-  @Output() deleted = new EventEmitter<'ROLE' | 'CATEGORY' | 'PRODUCT' | 'MASTERPRODUCT'>();
+  @Output() deleted = new EventEmitter<'ROLE' | 'CATEGORY' | 'PRODUCT' | 'PRODUCTMASTER'>();
   private modal!: Modal;
 
   roleList = signal<Role[]>([]);
   categoryList = signal<Category[]>([]);
   productList = signal<Product[]>([]);
-  masterproductList = signal<ProductMasters[]>([]);
+  productmasterList = signal<ProductMasters[]>([]);
   mastesrv = inject(MasterService);
 
   selectedDeleteId: number | null = null;
-  deleteType: 'ROLE' | 'CATEGORY' | 'PRODUCT' | 'MASTERPRODUCT' | null = null;
+  deleteType: 'ROLE' | 'CATEGORY' | 'PRODUCT' | 'PRODUCTMASTER' | null = null;
 
   ngAfterViewInit() {
     this.modal = new Modal(this.modalEl.nativeElement);
   }
 
   /** This is what other components will call */
-  open(type: 'ROLE' | 'CATEGORY' | 'PRODUCT' | 'MASTERPRODUCT' , id: number) {
+  open(type: 'ROLE' | 'CATEGORY' | 'PRODUCT' | 'PRODUCTMASTER' , id: number) {
     this.deleteType = type;
     this.selectedDeleteId = id;
     this.modal.show();
@@ -76,7 +76,7 @@ export class Delete implements AfterViewInit {
     this.mastesrv.deleteProductMaster(productId).subscribe({
       next: () => {
         alert('Master Product Deleted');
-        this.deleted.emit('MASTERPRODUCT')
+        this.deleted.emit('PRODUCTMASTER')
         this.getAllProductMaster();
         this.close();
       }
@@ -103,7 +103,7 @@ export class Delete implements AfterViewInit {
 
   getAllProductMaster() {
     this.mastesrv.getAllProductMaster().subscribe({
-      next: (rs: ApiResponseModel) => this.masterproductList.set(rs.data)
+      next: (rs: ApiResponseModel) => this.productmasterList.set(rs.data)
     });
   }
 }

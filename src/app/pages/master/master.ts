@@ -4,7 +4,7 @@ import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
 import { Category, Role } from '../../core/models/classes/Master.model';
 import { CommonModule, JsonPipe } from '@angular/common';
-import { Product } from "../product/product";
+import { Product } from "../farmer-product/farmer-product";
 import { RoleMaster } from "../role-master/role-master";
 import { CategoryMaster } from "../category-master/category-master";
 import { ProductMaster } from "../product-master/product-master";

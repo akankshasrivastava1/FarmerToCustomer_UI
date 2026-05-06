@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserLogin, UserModel } from '../../core/models/classes/UserModel';
 import { UserService } from '../../core/services/user-service';
@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export class Login  implements OnInit{
 
   userSrv = inject(UserService)
   router = inject(Router);
@@ -33,12 +33,18 @@ export class Login {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      roleId: ['', Validators.required],
+      roleId: [null, Validators.required],
       phone: ['', Validators.required],
       address: ['', Validators.required],
       confirmPassword: ['', [Validators.required]],
     }, { validators: this.passwordMatchValidator });
   }
+
+  
+ngOnInit(): void {
+    this.getAllRoles();
+  }
+
   passwordMatchValidator(form: FormGroup): { [key: string]: any } | null {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');

@@ -15,3 +15,15 @@ export interface IRole {
     roleId: number;
     roleName: string;
 }
+
+export interface FarmerProduct {
+  farmerProductId: number;
+  farmerId: number;
+  productId: number;
+  pricePerKg: number;
+  availableQuantity: number;
+  availableDate: string;
+  status: string;
+  productImage?: string;
+  imageUrl?: string;
+}

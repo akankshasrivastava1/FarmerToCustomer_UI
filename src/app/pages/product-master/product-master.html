@@ -111,7 +111,7 @@
                                 <span class="fw-600">{{item.name}}</span>
                             </td>
                             <td>
-                                <small class="text-muted">{{item.description.length > 50 ? (item.description | slice:0:50) + '...' : item.description}}</small>
+                                <small class="text-muted" [title]="item.description"> {{item.description | slice:0:150}}..</small>
                             </td>
                             <!-- <td>
                                 <span class="badge" style="background: var(--primary-lightest); color: var(--primary);">
@@ -129,7 +129,7 @@
                                         (click)="openDelete(item.productId)">
                                         <i class="bi bi-trash"></i>
                                     </button>
-                                    <app-delete></app-delete>
+                                    <!-- <app-delete></app-delete> -->
                                 </div>
                                 
                             </td>
@@ -221,7 +221,7 @@
                         <div class="col-12">
                             <div class="border rounded p-3 text-center" style="background: var(--primary-lightest);">
                                 @if (productForm.get('image')?.value) {
-                                    <img [src]="productForm.get('image')?.value" alt="Preview" 
+                                    <img [src]="productForm.get('image')?.value != '' ? productForm.get('image')?.value : 'https://example.com/image.jpg' " alt="Preview" 
                                         style="max-width: 200px; max-height: 150px; border-radius: var(--radius-sm);">
                                 } @else {
                                     <div class="text-muted py-4">
@@ -254,3 +254,7 @@
         </div>
     </div>
 </div>
+<app-delete
+  entityName="Product"
+  (confirmDelete)="onDeleteProduct(selectedDeleteId!)">
+</app-delete>
