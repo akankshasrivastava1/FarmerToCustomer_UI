@@ -2,7 +2,10 @@ import { Component, inject, signal, ViewChild, ElementRef, AfterViewInit, Output
 import { Modal } from 'bootstrap';
 import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
-import { Category, Role, Product, ProductMasters } from '../../core/models/classes/Master.model';
+import { Category, Role, Product } from '../../core/models/classes/Master.model';
+import { ProductMasterItem } from '../../core/models/classes/ProductMaster.model';
+import { ProductMasterService } from '../../core/services/product-masters';
+import { FarmerProductSrv  } from '../../core/services/FarmerProductSrv';
 
 @Component({
   selector: 'app-delete',
@@ -18,8 +21,12 @@ export class Delete implements AfterViewInit {
   roleList = signal<Role[]>([]);
   categoryList = signal<Category[]>([]);
   productList = signal<Product[]>([]);
-  productmasterList = signal<ProductMasters[]>([]);
-  mastesrv = inject(MasterService);
+  productmasterList = signal<ProductMasterItem[]>([]);
+  mastersrv = inject(MasterService);
+  //farmer
+  farmerproductSrv  = inject(FarmerProductSrv);
+  //admin
+  productmaster = inject(ProductMasterService)
 
   selectedDeleteId: number | null = null;
   deleteType: 'ROLE' | 'CATEGORY' | 'PRODUCT' | 'PRODUCTMASTER' | null = null;
@@ -40,7 +47,7 @@ export class Delete implements AfterViewInit {
   }
 
   onDeleteRole(roleId: number) {
-    this.mastesrv.deleteRole(roleId).subscribe({
+    this.mastersrv.deleteRole(roleId).subscribe({
       next: () => {
         alert('Role Deleted');
         this.deleted.emit('ROLE')
@@ -51,7 +58,7 @@ export class Delete implements AfterViewInit {
   }
 
   onDeleteCategory(categoryId: number) {
-    this.mastesrv.deleteCategory(categoryId).subscribe({
+    this.mastersrv.deleteCategory(categoryId).subscribe({
       next: () => {
         alert('Category Deleted');
         this.deleted.emit('CATEGORY')
@@ -62,7 +69,7 @@ export class Delete implements AfterViewInit {
   }
 
   onDeleteProduct(productId: number) {
-    this.mastesrv.deleteProduct(productId).subscribe({
+    this.farmerproductSrv.deleteProduct(productId).subscribe({
       next: () => {
         alert('Product Deleted');
         this.deleted.emit('PRODUCT')
@@ -73,7 +80,7 @@ export class Delete implements AfterViewInit {
   }
 
   onDeleteProductMaster(productId: number) {
-    this.mastesrv.deleteProductMaster(productId).subscribe({
+    this.productmaster.deleteProductMaster(productId).subscribe({
       next: () => {
         alert('Master Product Deleted');
         this.deleted.emit('PRODUCTMASTER')
@@ -84,25 +91,25 @@ export class Delete implements AfterViewInit {
   }
 
   getAllRole() {
-    this.mastesrv.getAllRoles().subscribe({
+    this.mastersrv.getAllRoles().subscribe({
       next: (rs: ApiResponseModel) => this.roleList.set(rs.data)
     });
   }
 
   getAllCategory() {
-    this.mastesrv.getAllCategory().subscribe({
+    this.mastersrv.getAllCategory().subscribe({
       next: (rs: ApiResponseModel) => this.categoryList.set(rs.data)
     });
   }
 
   getAllProducts() {
-    this.mastesrv.getAllProducts().subscribe({
+    this.farmerproductSrv.getAllProducts().subscribe({
       next: (rs: ApiResponseModel) => this.productList.set(rs.data)
     });
   }
 
   getAllProductMaster() {
-    this.mastesrv.getAllProductMaster().subscribe({
+    this.productmaster.getAllProductMaster().subscribe({
       next: (rs: ApiResponseModel) => this.productmasterList.set(rs.data)
     });
   }

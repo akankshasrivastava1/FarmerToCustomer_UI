@@ -1,5 +1,4 @@
-
-<!-- Tab Navigation -->
+    <!-- Tab Navigation -->
 <div class="custom-tabs">
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -10,13 +9,14 @@
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="product-tab" data-bs-toggle="tab" data-bs-target="#productPane" 
-                type="button" role="tab" aria-controls="productPane" aria-selected="false">
+                type="button" role="tab" aria-controls="productPane" aria-selected="false"
+               >
                 <i class="bi bi-box-seam me-2"></i>Products
             </button>
         </li>
     </ul>
-</div>
 
+</div>
 <div class="tab-content">
     <!-- Farmer Product CRUD -->
     <div class="tab-pane fade show active" id="farmerProductPane" role="tabpanel" aria-labelledby="farmer-product-tab">
@@ -36,7 +36,7 @@
                         <span>Active</span>
                         <i class="bi bi-check-circle fs-4 text-success"></i>
                     </div>
-                    <h3>{{ getStatusCount('Active') }}</h3>
+                    <h3>{{ getStatusCount('Available') }}</h3>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -69,20 +69,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if(farmerProductList() && farmerProductList().length > 0) {
+                    @if(productList() && productList().length > 0) {
                         @for (item of farmerProductList(); track item.farmerProductId) {
                         <tr>
                             <td>
                                 @if(item.productImage || item.imageUrl) {
                                     <img [src]="item.productImage || item.imageUrl" alt="Product" 
                                         style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
-                                } @else {
+                                } @else { 
                                     <div style="width:60px;height:60px;background:var(--primary-lightest);border-radius:8px;display:flex;align-items:center;justify-content:center;">
                                         <i class="bi bi-image" style="color: var(--primary);"></i>
                                     </div>
                                 }
                             </td>
-                            <td class="font-weight-bold">{{item.farmerId}}</td>
+                            <td class="font-weight-bold">{{item.farmerId}}</td> 
                             <td>{{item.productId}}</td>
                             <td>
                                 <span class="badge" style="background: var(--primary-lightest); color: var(--primary);">
@@ -93,9 +93,9 @@
                             <td>{{item.availableDate | date:'dd-MMM-yyyy'}}</td>
                             <td>
                                 <span class="badge" [ngClass]="{
-                                    'bg-success': item.status === 'Active',
-                                    'bg-warning': item.status === 'Inactive',
-                                    'bg-danger': item.status === 'Unavailable'
+                                    'bg-success': item.status === 'Available',
+                                    'bg-warning': item.status === 'Out of Stock',
+                                    'bg-danger': item.status === 'Inactive'
                                 }">
                                     {{item.status}}
                                 </span>
@@ -106,7 +106,7 @@
                                         data-bs-target="#farmerProductModal" (click)="onEditFarmerProduct(item)">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="action-btn action-btn-delete" title="Delete" (click)="openDelete(item.farmerProductId)">
+                                    <button class="action-btn action-btn-delete" title="Delete" (click)="openDelete(item)">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -194,9 +194,14 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="productId">
-                                <i class="bi bi-box me-1" style="color: var(--primary);"></i>Product ID
+                                <i class="bi bi-box me-1" style="color: var(--primary);"></i>Product
                             </label>
-                            <input type="number" class="form-control" id="productId" formControlName="productId" placeholder="Enter product ID" required>
+                            <select class="form-select" id="productId" formControlName="productId" required>
+                                <option value="">Select Product</option>
+                                <option *ngFor="let product of productList()" [value]="product.productId">
+                                    {{ product.name }} (ID: {{ product.productId }})
+                                </option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="pricePerKg">
@@ -227,9 +232,9 @@
                             </label>
                             <select class="form-select" id="status" formControlName="status" required>
                                 <option value="">Select Status</option>
-                                <option value="Active">Active</option>
+                                <option value="Available">Available</option>
+                                <option value="Out of Stock">Out of Stock</option>
                                 <option value="Inactive">Inactive</option>
-                                <option value="Unavailable">Unavailable</option>
                             </select>
                         </div>
                         <div class="col-12">

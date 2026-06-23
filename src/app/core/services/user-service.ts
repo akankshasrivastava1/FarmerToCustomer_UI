@@ -14,7 +14,19 @@ export class UserService {
   http = inject(HttpClient);
   apiUrl: string = environment.API_URL;
   onLogin$ : Subject<boolean> = new Subject<boolean>(); 
-  
+  loggedInUser!: UserModel;
+
+  constructor() {
+    
+    this.getLoggedUser();
+  }
+
+   getLoggedUser() {
+    const localDta =  localStorage.getItem(GlobalConstant.LOCAL_LOGIN_KEY);
+    if(localDta != null) {
+      this.loggedInUser =  JSON.parse(localDta)
+    }
+  }
 
   login(obj: UserLogin): Observable<LoginResponse>{
     debugger;
@@ -30,5 +42,8 @@ export class UserService {
     return this.http.get(`${this.apiUrl} ${GlobalConstant.API_ENDPOINTS.GET_USER_BY_ID} ${id}`)
   }
 
+  getAllUsers() :Observable<ApiResponseModel>{
+    return this.http.get<ApiResponseModel>(`${this.apiUrl}${GlobalConstant.API_ENDPOINTS.GET_ALL_USERS}`)
+  }
   
 }

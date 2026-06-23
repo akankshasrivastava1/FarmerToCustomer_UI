@@ -130,9 +130,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of roleList(); track $index) {
-                                <tr>
-                                    <td class="font-weight-bold">{{$index+1}}</td>
+                                <tr *ngFor="let item of roleList(); let i = index">
+                                    <td class="font-weight-bold">{{i + 1}}</td>
                                     <td>
                                         <span class="role-badge admin">
                                             <i class="bi bi-shield-check me-1"></i>{{item.roleName}}
@@ -188,10 +187,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of categoryList(); track $index) {
-
-                                <tr>
-                                    <td class="font-weight-bold">{{$index+1}}</td>
+                                <tr *ngFor="let item of categoryList(); let i = index">
+                                    <td class="font-weight-bold">{{i + 1}}</td>
                                     <td>
                                         <span class="category-badge admin">
                                             <i class="bi bi-shield-check me-1"></i>{{item.name}}

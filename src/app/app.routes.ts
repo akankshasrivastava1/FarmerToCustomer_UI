@@ -8,7 +8,7 @@ import { RoleMaster } from './pages/role-master/role-master';
 import { CategoryMaster } from './pages/category-master/category-master';
 import { Master } from './pages/master/master';
 import { MasterNavigation } from './shared/master-navigation/master-navigation';
-import { Product } from './pages/farmer-product/farmer-product';
+import { FarmerProduct} from './pages/farmer-product/farmer-product';
 import { ProductMaster } from './pages/product-master/product-master';
 
 export const routes: Routes = [
@@ -31,8 +31,8 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
-        path: 'product',
-        component: Product,
+        path: 'farmer-product',
+        component: FarmerProduct,
         canActivate: [authGuard]
     },
     {

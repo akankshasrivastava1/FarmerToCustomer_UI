@@ -4,16 +4,17 @@ import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
 import { Category, Role } from '../../core/models/classes/Master.model';
 import { CommonModule, JsonPipe } from '@angular/common';
-import { Product } from "../farmer-product/farmer-product";
+import { FarmerProduct } from "../farmer-product/farmer-product"
 import { RoleMaster } from "../role-master/role-master";
 import { CategoryMaster } from "../category-master/category-master";
 import { ProductMaster } from "../product-master/product-master";
+import { ProductMasterService } from '../../core/services/product-masters';
 
 
 
 @Component({
   selector: 'app-master',
-  imports: [ReactiveFormsModule, CommonModule, Product, RoleMaster, CategoryMaster],
+  imports: [ReactiveFormsModule, CommonModule, RoleMaster, CategoryMaster, FarmerProduct],
   templateUrl: './master.html',
   styleUrl: './master.css',
 })
@@ -33,16 +34,15 @@ export class Master {
 
   formBuilder = inject(FormBuilder)
   mastesrv = inject(MasterService)
+  productmaster = inject(ProductMasterService);
 
 
   // // This controls which tab is visible
   //   activeTab = signal<'PRODUCT' | 'ROLE' | 'CATEGORY'>('PRODUCT');
-
   //   // Called when a tab is clicked
   //   onTabChange(tab: 'PRODUCT' | 'ROLE' | 'CATEGORY') {
   //     this.activeTab.set(tab);
   //   }
-
 
   constructor() {
     this.createCategoryForm();
@@ -62,6 +62,8 @@ export class Master {
     this.currentTabVisiable.set(tabName)
     if (tabName === 'Category') {
       this.getAllCategory(); //  ensures data always loads
+    } else if (tabName === 'Products') {
+      this.getAllProductMaster();
     }
 
   }
@@ -182,6 +184,17 @@ export class Master {
 
   getAllCategory() {
     this.mastesrv.getAllCategory().subscribe({
+      next: (rs: ApiResponseModel) => {
+        this.categoryList.set(rs.data);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+  }
+
+  getAllProductMaster(){
+    this.productmaster.getAllProductMaster().subscribe({
       next: (rs: ApiResponseModel) => {
         this.categoryList.set(rs.data);
       },

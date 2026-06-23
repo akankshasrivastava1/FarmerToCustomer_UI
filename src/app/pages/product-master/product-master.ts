@@ -1,10 +1,14 @@
 import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Category, ProductMasters } from '../../core/models/classes/Master.model';
+import { Category } from '../../core/models/classes/Master.model';
+import { ProductMasterItem } from '../../core/models/classes/ProductMaster.model';
 import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interface/api-response.Model';
+import { IFarmerProductList } from '../../core/models/interface/FarmerProduct.interface';
 import { CommonModule } from '@angular/common';
 import { Delete } from "../delete/delete";
+import { ProductMasterService } from '../../core/services/product-masters';
+import { FarmerProductSrv} from '../../core/services/FarmerProductSrv';
 
 @Component({
   selector: 'app-product-master',
@@ -16,13 +20,16 @@ export class ProductMaster implements OnInit {
   productForm!: FormGroup;
   deleteType: 'PRODUCT' | null = null;
   selectedDeleteId: number | null = null;
-  productList = signal<ProductMasters[]>([]);
+  productList = signal<ProductMasterItem[]>([]);
+  farmerList = signal<IFarmerProductList[]>([]);
   categoryList = signal<Category[]>([]);
   isEditMode = signal<boolean>(false);
   searchTerm = signal<string>('');
 
   formBuilder = inject(FormBuilder);
-  masterSrv = inject(MasterService);
+  productmaster = inject(ProductMasterService);
+  farmerproductSrv = inject(FarmerProductSrv);
+  mastersrv = inject(MasterService);
 
   @ViewChild(Delete) deleteComp!: Delete;
 
@@ -53,9 +60,9 @@ export class ProductMaster implements OnInit {
   }
 
   getAllProducts() {
-    this.masterSrv.getAllProducts().subscribe({
+    this.farmerproductSrv.getAllProducts().subscribe({
       next: (rs: ApiResponseModel) => {
-        this.productList.set(rs.data);
+        this.farmerList.set(rs.data);
       },
       error: (err) => {
         console.error('Error loading products:', err);
@@ -64,14 +71,14 @@ export class ProductMaster implements OnInit {
   }
 
   getAllProductMaster() {
-    this.masterSrv.getAllProductMaster().subscribe({
+    this.productmaster.getAllProductMaster().subscribe({
       next: (rs: ApiResponseModel) => {
         this.productList.set(rs.data);
       }
     });
   }
   getAllCategories() {
-    this.masterSrv.getAllCategory().subscribe({
+    this.mastersrv.getAllCategory().subscribe({
       next: (rs: ApiResponseModel) => {
         this.categoryList.set(rs.data);
       },
@@ -84,7 +91,7 @@ export class ProductMaster implements OnInit {
   onSaveProduct() {
     if (this.productForm.valid) {
       const formValue = this.productForm.value;
-      this.masterSrv.createProduct(formValue).subscribe({
+      this.productmaster.createProductMaster(formValue).subscribe({
         next: (rs: ApiResponseModel) => {
           alert('Product Saved Successfully');
           //this.getAllProducts();
@@ -103,7 +110,7 @@ export class ProductMaster implements OnInit {
   onUpdateProduct() {
     if (this.productForm.valid) {
       const formValue = this.productForm.value;
-      this.masterSrv.updateProduct(formValue).subscribe({
+      this.productmaster.updateProductMaster(formValue).subscribe({
         next: (rs: ApiResponseModel) => {
           alert('Product Updated Successfully');
           this.getAllProductMaster();
@@ -118,7 +125,7 @@ export class ProductMaster implements OnInit {
     }
   }
 
-  onProductEdit(product: ProductMasters) {
+  onProductEdit(product: ProductMasterItem) {
     this.isEditMode.set(true);
     this.productForm.patchValue({
       productId: product.productId,
@@ -130,10 +137,10 @@ export class ProductMaster implements OnInit {
   }
 
   onDeleteProduct(productId: number) {
-    this.masterSrv.deleteProduct(productId).subscribe({
+    this.productmaster.deleteProductMaster(productId).subscribe({
       next: () => {
         alert('Product Deleted Successfully');
-        this.getAllProducts();
+        this.getAllProductMaster();
       },
       error: (err) => {
         console.error('Error deleting product:', err);

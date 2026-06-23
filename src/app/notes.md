@@ -8,3 +8,7 @@ Behaviour Subject - can have a default value
 
 Example usecase of subject and behaviour subject - 
 let say I'm login my navbar component already loaded once i logged in I'm navigate to different application but in navbar user details is not getting updated in logged-in under for that in login component, I created the subject in my common service for login component I emitting the value then in my navbar(header) component I subscribing that in navbar again I read the local storage data that how the log button and the logged in user is getting visible without refresh 
+
+Two ways API integration
+Normal (subscribr / obeservable)
+Async pipe
